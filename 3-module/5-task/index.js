@@ -1,20 +1,11 @@
 function getMinMax(str) {
-  let strToArr = str.split(' ');
-  let arrOfNumbers = [];
+  let arrOfNumbers = str
+  .split(' ')
+  .filter(item => !isNaN(+item))
+  .sort((a, b) => a - b);
 
-  strToArr.map(function(item) {
-    if (!isNaN(+item)) {
-      arrOfNumbers.push(+item);
-    }
-  });
-
-  arrOfNumbers.sort((a, b) => a - b);
-
-  let result = {
-    min: arrOfNumbers[0],
-    max: arrOfNumbers.at(-1)
+  return {
+    min: +arrOfNumbers[0],
+    max: +arrOfNumbers.at(-1)
   };
-
-  return result;
-
 }
