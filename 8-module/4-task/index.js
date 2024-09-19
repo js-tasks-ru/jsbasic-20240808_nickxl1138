@@ -54,14 +54,12 @@ export default class Cart {
 
   getTotalCount() {
     return this.cartItems
-    .map(item => item.count)
-    .reduce((sum, current) => sum + current, 0);
+    .reduce((sum, current) => sum + current.count, 0);
   }
 
   getTotalPrice() {
     return this.cartItems
-    .map(item => item.count * item.product.price)
-    .reduce((sum, current) => sum + current, 0);
+    .reduce((sum, current) => sum + current.count * current.product.price, 0);
   }
 
   renderProduct(product, count) {
@@ -174,7 +172,7 @@ export default class Cart {
   onSubmit(event) {
     event.preventDefault();
 
-    const form = document.querySelector('.cart-form');
+    const form = document.forms[0];
     form.querySelector('[type="submit"]').classList.add('is-loading');
 
     fetch('https://httpbin.org/post', {
