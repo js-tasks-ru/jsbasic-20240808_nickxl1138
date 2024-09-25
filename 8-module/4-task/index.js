@@ -182,6 +182,7 @@ export default class Cart {
     .then(() => {
       this.modal.setTitle('Success!');
       this.cartItems = [];
+      this.cartIcon.update(this);
       this.modalDiv.innerHTML = `
         <div class="modal__body-inner">
           <p>

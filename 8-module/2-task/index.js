@@ -22,15 +22,15 @@ export default class ProductGrid {
 
   #makeCard() {
     this.products.map(product => {
-      if (this.filters.noNuts && this.filters.noNuts == product.nuts) {
+      if (this.filters.noNuts && product.nuts) {
         return;
       }
       
-      if (this.filters.vegeterianOnly && this.filters.vegeterianOnly !== product.vegeterian) {
+      if (this.filters.vegeterianOnly && !product.vegeterian) {
         return;
       }
       
-      if (this.filters.maxSpiciness && this.filters.maxSpiciness < product.spiciness) {
+      if (this.filters.maxSpiciness < product.spiciness) {
         return;
       }
       
