@@ -10,6 +10,7 @@ export default class StepSlider {
     this.#value = value;
     this.#makeStepSlider();
     this.#addEventListeners();
+    this.#sliderActive(this.#value);
   }
 
   #makeStepSlider() {
@@ -31,7 +32,7 @@ export default class StepSlider {
   #makeSpan() {
     let span = '';
     
-    for (let i = this.#value; i <= this.#steps - 1; i++) {
+    for (let i = 0; i <= this.#steps - 1; i++) {
       span += `<span></span>`;
     }
 
@@ -51,9 +52,7 @@ export default class StepSlider {
   #sliderOnClick = (event) => {
     const result = this.#calculate(event);
 
-    this.#sliderSelect('value').textContent = result.value;
-    this.#sliderActive(result.value);
-    this.#thumbShift(result.valuePercents);
+    this.#sliderActive(result.value, result.valuePercents);
     this.#setCustomEvent(result.value);
   }
   
@@ -84,7 +83,11 @@ export default class StepSlider {
     return result;
   }
 
-  #sliderActive = (value) => {
+  #sliderActive = (value, valuePercents) => {
+    if (!valuePercents) {
+      valuePercents = value / (this.#steps - 1) * 100;
+    }
+
     const activeAdd = this.#sliderSelect('steps').children[value];
     const allItems = this.elem.querySelectorAll('.slider__step-active');
 
@@ -93,9 +96,8 @@ export default class StepSlider {
     }
 
     activeAdd.classList.add('slider__step-active');
-  }
 
-  #thumbShift = (valuePercents) => {
+    this.#sliderSelect('value').textContent = value;
     this.#sliderSelect('thumb').style.left = `${valuePercents}%`;
     this.#sliderSelect('progress').style.width = `${valuePercents}%`;
   }
@@ -125,8 +127,6 @@ export default class StepSlider {
 
     this.#sliderSelect('thumb').style.left = `${result.leftPercents}%`;
     this.#sliderSelect('progress').style.width = `${result.leftPercents}%`;
-    this.#sliderActive(result.value);
-    this.#sliderSelect('value').textContent = result.value;
     this.#setCustomEvent(result.value);
   }
 
@@ -138,7 +138,7 @@ export default class StepSlider {
 
     const result = this.#calculate(event);
 
-    this.#thumbShift(result.valuePercents);
     this.#setCustomEvent(result.value);
   }
 }
+
